@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Memory Studio · Walking Through Memories</title>
+    <meta
+      name="description"
+      content="Không gian cục bộ để Diem Vo soạn thảo concert memories trước khi xuất bản."
+    >
+    <link rel="stylesheet" href="/studio/styles.css">
+    <script type="module" src="/studio/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#studio-editor">Đi tới trình chỉnh sửa</a>
+
+    <header class="studio-header">
+      <a class="studio-brand" href="/studio" aria-label="Memory Studio home">
+        <span class="brand-mark" aria-hidden="true">W</span>
+        <span>
+          <strong>Memory Studio</strong>
+          <small>Walking Through Memories · Diem Vo</small>
+        </span>
+      </a>
+
+      <div class="draft-state">
+        <span aria-hidden="true"></span>
+        Bản nháp cục bộ · Chưa xuất bản
+      </div>
+
+      <div class="header-actions">
+        <button class="button button-quiet" id="export-draft" type="button">
+          Xuất bản nháp
+        </button>
+        <button class="button button-primary" id="save-draft" type="button">
+          Lưu ngay
+        </button>
+      </div>
+    </header>
+
+    <main class="studio-shell">
+      <section class="intro" aria-labelledby="studio-title">
+        <p class="eyebrow">Private editing room</p>
+        <h1 id="studio-title">Soạn một ký ức trước khi bật đèn sân khấu.</h1>
+        <p>
+          Nội dung và media chỉ nằm trong trình duyệt trên máy này. Không có dữ
+          liệu nào được gửi lên GitHub hoặc website chính thức.
+        </p>
+      </section>
+
+      <div class="workspace">
+        <form id="draft-form" class="editor" novalidate>
+          <section id="studio-editor" class="editor-section" aria-labelledby="details-title">
+            <div class="section-heading">
+              <span>01</span>
+              <div>
+                <p>Thông tin cơ bản</p>
+                <h2 id="details-title">Concert chapter</h2>
+              </div>
+            </div>
+
+            <div class="field-grid compact-grid">
+              <div class="field">
+                <label for="chapter">Chapter</label>
+                <input id="chapter" name="chapter" maxlength="3" placeholder="05">
+              </div>
+              <div class="field">
+                <label for="year">Năm</label>
+                <input id="year" name="year" inputmode="numeric" maxlength="4" placeholder="2026">
+              </div>
+              <div class="field">
+                <label for="date">Ngày</label>
+                <input id="date" name="date" type="date">
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="city">Thành phố</label>
+                <input id="city" name="city" maxlength="80" placeholder="Bangkok">
+              </div>
+              <div class="field">
+                <label for="venue">Địa điểm</label>
+                <input id="venue" name="venue" maxlength="120" placeholder="Impact Arena">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="title">Tên ký ức</label>
+              <input
+                id="title"
+                name="title"
+                maxlength="100"
+                placeholder="Neon Encore"
+                required
+              >
+              <small>Tên ngắn xuất hiện trên timeline.</small>
+            </div>
+
+            <div class="field">
+              <label for="subtitle">Dòng cảm xúc</label>
+              <input
+                id="subtitle"
+                name="subtitle"
+                maxlength="140"
+                placeholder="A night written in rose light"
+              >
+            </div>
+          </section>
+
+          <section class="editor-section" aria-labelledby="story-title">
+            <div class="section-heading">
+              <span>02</span>
+              <div>
+                <p>Nhật ký</p>
+                <h2 id="story-title">The story</h2>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="note">Khoảnh khắc mở đầu</label>
+              <textarea
+                id="note"
+                name="note"
+                rows="4"
+                maxlength="420"
+                placeholder="Một câu tóm tắt cảm giác của đêm diễn..."
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="before">Trước khi đèn sáng</label>
+              <textarea
+                id="before"
+                name="before"
+                rows="4"
+                maxlength="800"
+                placeholder="Vé, outfit, hàng chờ và cảm giác trước concert..."
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="favorite">Khoảnh khắc yêu thích</label>
+              <textarea
+                id="favorite"
+                name="favorite"
+                rows="4"
+                maxlength="800"
+                placeholder="Bài hát, ánh mắt hoặc một giây bạn muốn giữ lại..."
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="after">Sau buổi diễn</label>
+              <textarea
+                id="after"
+                name="after"
+                rows="4"
+                maxlength="800"
+                placeholder="Điều còn ở lại sau khi sân khấu tắt đèn..."
+              ></textarea>
+            </div>
+          </section>
+
+          <section class="editor-section" aria-labelledby="media-title">
+            <div class="section-heading">
+              <span>03</span>
+              <div>
+                <p>Media shelf</p>
+                <h2 id="media-title">Ảnh, video & âm thanh</h2>
+              </div>
+            </div>
+
+            <label class="drop-zone" id="media-drop-zone" for="media-input">
+              <span class="drop-icon" aria-hidden="true">＋</span>
+              <strong>Kéo media vào đây hoặc chọn từ máy</strong>
+              <small>
+                JPG, PNG, WebP, GIF · MP4, WebM, MOV · MP3, M4A, OGG, WAV
+              </small>
+              <input
+                id="media-input"
+                class="visually-hidden"
+                type="file"
+                accept="image/*,video/*,audio/*"
+                multiple
+              >
+            </label>
+
+            <p class="storage-note">
+              Dữ liệu chỉ được lưu trên thiết bị này. Video lớn nên dùng đường
+              dẫn YouTube unlisted thay vì đưa trực tiếp vào draft.
+            </p>
+
+            <div class="media-list" id="media-list" role="list">
+              <p class="empty-media">Chưa có media trong bản nháp.</p>
+            </div>
+
+            <div class="field">
+              <label for="external-video">Video online</label>
+              <input
+                id="external-video"
+                name="externalVideo"
+                type="url"
+                inputmode="url"
+                placeholder="https://youtu.be/..."
+              >
+              <small>YouTube, hoặc đường dẫn trực tiếp HTTPS đến video.</small>
+            </div>
+
+            <div class="field">
+              <label for="external-audio">Âm thanh online</label>
+              <input
+                id="external-audio"
+                name="externalAudio"
+                type="url"
+                inputmode="url"
+                placeholder="https://..."
+              >
+              <small>Đường dẫn HTTPS đến tệp âm thanh.</small>
+            </div>
+          </section>
+
+          <section class="editor-section review-section" aria-labelledby="review-title">
+            <div class="section-heading">
+              <span>04</span>
+              <div>
+                <p>Review state</p>
+                <h2 id="review-title">Sẵn sàng để xem lại?</h2>
+              </div>
+            </div>
+
+            <label class="ready-check" for="ready">
+              <input id="ready" name="ready" type="checkbox">
+              <span>
+                <strong>Đánh dấu “Ready to review”</strong>
+                <small>Thao tác này không xuất bản website.</small>
+              </span>
+            </label>
+
+            <button class="reset-button" id="reset-draft" type="button">
+              Xóa toàn bộ bản nháp trên máy
+            </button>
+          </section>
+        </form>
+
+        <aside class="preview-column" aria-labelledby="preview-title">
+          <div class="preview-toolbar">
+            <div>
+              <p>Live preview</p>
+              <h2 id="preview-title">Timeline card</h2>
+            </div>
+            <span id="preview-state">Draft</span>
+          </div>
+
+          <article class="memory-preview" id="live-preview">
+            <div class="preview-stage" aria-hidden="true">
+              <span class="preview-light light-one"></span>
+              <span class="preview-light light-two"></span>
+              <span class="preview-chapter" id="preview-chapter">05</span>
+              <span class="preview-label">Local preview</span>
+            </div>
+
+            <div class="preview-content">
+              <p class="preview-meta" id="preview-meta">Ngày · Thành phố</p>
+              <h3 id="preview-memory-title">Untitled memory</h3>
+              <p class="preview-subtitle" id="preview-subtitle">
+                Add a line that brings the night back.
+              </p>
+              <blockquote id="preview-note">
+                “Your opening memory will appear here.”
+              </blockquote>
+
+              <div class="preview-story-grid">
+                <section>
+                  <span>01</span>
+                  <h4>Before the lights</h4>
+                  <p id="preview-before">Add the moments before the show.</p>
+                </section>
+                <section>
+                  <span>02</span>
+                  <h4>Favorite moment</h4>
+                  <p id="preview-favorite">Keep the best second of the night.</p>
+                </section>
+                <section>
+                  <span>03</span>
+                  <h4>After the show</h4>
+                  <p id="preview-after">Write what stayed with you.</p>
+                </section>
+              </div>
+
+              <div class="preview-media" id="preview-media"></div>
+            </div>
+          </article>
+
+          <p class="preview-venue" id="preview-venue">Venue chưa được thêm</p>
+        </aside>
+      </div>
+    </main>
+
+    <div
+      class="status-toast"
+      id="studio-status"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      Đang mở bản nháp cục bộ…
+    </div>
+
+    <footer>
+      <p>Memory Studio · Chỉ hoạt động trên máy của Diem Vo</p>
+      <p id="last-saved">Chưa lưu</p>
+    </footer>
+  </body>
+</html>
