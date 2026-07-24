@@ -36,8 +36,37 @@ test("server-renders the Walking Through Memories experience", async () => {
   assert.match(html, /Every memory deserves a place\./);
   assert.match(html, /Begin the walk/);
   assert.match(html, /Memory timeline/);
-  assert.match(html, /Where the Walk Began/);
+  assert.match(html, /BAEKHYUN WORLD TOUR &lt;Reverie&gt; IN HANOI/);
   assert.match(html, /The lights fade\. The memory stays\./);
+});
+
+test("renders the first real concert chapter with its gallery and media", async () => {
+  const html = await (await render()).text();
+  const page = await readFile(
+    new URL("../app/page.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(html, /04 Oct<\/time> · (?:<!-- -->)?Hanoi/);
+  assert.match(html, /My Dinh Indoor Athletics Arena/);
+  assert.match(html, /Baekhyunee/);
+  assert.match(html, /Eri-bong/);
+  assert.match(html, /DiemVo here!/);
+  assert.match(page, /\/memories\/baekhyun-reverie\/eri-bong\.webp/);
+  assert.match(page, /\/memories\/baekhyun-reverie\/diem-vo\.webp/);
+  assert.match(page, /\/memories\/baekhyun-reverie\/baekhyunee\.webp/);
+  await Promise.all([
+    access(new URL("../public/memories/baekhyun-reverie/eri-bong.webp", import.meta.url)),
+    access(new URL("../public/memories/baekhyun-reverie/diem-vo.webp", import.meta.url)),
+    access(new URL("../public/memories/baekhyun-reverie/baekhyunee.webp", import.meta.url)),
+  ]);
+  assert.match(html, /https:\/\/www\.youtube-nocookie\.com\/embed\/6k_HJdxqVT4/);
+  assert.match(html, /https:\/\/www\.youtube-nocookie\.com\/embed\/ufX7VluncTY/);
+  assert.doesNotMatch(html, /\/_vinext\/image\?/);
+  assert.match(html, /src="\/memories\/baekhyun-reverie\/eri-bong\.webp"/);
+  assert.match(html, /src="\/memories\/baekhyun-reverie\/diem-vo\.webp"/);
+  assert.match(html, /src="\/memories\/baekhyun-reverie\/baekhyunee\.webp"/);
+  assert.doesNotMatch(html, /Demo chapter|Neon Encore|Lavender Night/);
 });
 
 test("renders accessible navigation, filters, chapters, and details", async () => {

@@ -1,12 +1,29 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
+
+type GalleryItem = {
+  src: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+};
+
+type MediaItem = {
+  label: string;
+  title: string;
+  embedUrl: string;
+};
 
 type Memory = {
   chapter: string;
   year: string;
   date: string;
+  dateTime: string;
   city: string;
+  venue: string;
   title: string;
   subtitle: string;
   note: string;
@@ -14,64 +31,72 @@ type Memory = {
   before: string;
   after: string;
   tone: "blush" | "rose" | "blue" | "gold";
+  gallery: GalleryItem[];
+  media: MediaItem[];
 };
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const publicAsset = (path: string) => `${basePath}${path}`;
 
 const memories: Memory[] = [
   {
-    chapter: "04",
-    year: "2026",
-    date: "18 Apr",
-    city: "Bangkok",
-    title: "Neon Encore",
-    subtitle: "A night written in rose light",
-    note: "The crowd went quiet for one breath—then the whole arena became a sky of lightsticks.",
-    favorite: "The final chorus, when every voice around me became part of the song.",
-    before: "A folded ticket, silver details on the outfit, and that familiar nervous walk toward the arena doors.",
-    after: "I left with ringing ears, a full camera roll, and the feeling that the night had ended too soon.",
-    tone: "blush",
-  },
-  {
-    chapter: "03",
-    year: "2025",
-    date: "02 Nov",
-    city: "Singapore",
-    title: "Lavender Night",
-    subtitle: "Soft songs, loud hearts",
-    note: "Some memories arrive as a flash. This one settled slowly, like color returning after the stage went dark.",
-    favorite: "A quiet acoustic verse shared by thousands of people without a single phone in the air.",
-    before: "Coffee near the venue, a last-minute banner, and a playlist repeated all afternoon.",
-    after: "The walk back felt suspended between the concert and real life—too bright to be ordinary.",
-    tone: "rose",
-  },
-  {
-    chapter: "02",
-    year: "2024",
-    date: "27 Jul",
-    city: "Ho Chi Minh City",
-    title: "First Row of Stars",
-    subtitle: "Closer than the screen ever felt",
-    note: "For the first time, the stage did not feel far away. Every expression became part of the memory.",
-    favorite: "The first wave from the stage and the split-second disbelief that followed.",
-    before: "An early queue, summer heat, new friends, and a wristband kept carefully in a pocket.",
-    after: "I understood why people travel for music: distance disappears when a favorite song begins.",
-    tone: "blue",
-  },
-  {
     chapter: "01",
-    year: "2023",
-    date: "29 Jul",
+    year: "2025",
+    date: "04 Oct",
+    dateTime: "2025-10-04",
     city: "Hanoi",
-    title: "Where the Walk Began",
-    subtitle: "The first chapter",
-    note: "I came for the songs I already loved and left with a new ritual: remembering every detail.",
-    favorite: "The opening VCR fading into the first live note—the exact moment the archive began.",
-    before: "A printed ticket, a carefully planned outfit, and no idea how much this night would matter later.",
-    after: "One sentence stayed with me on the way home: this deserves a place I can return to.",
-    tone: "gold",
+    venue: "My Dinh Indoor Athletics Arena",
+    title: "BAEKHYUN WORLD TOUR <Reverie> IN HANOI",
+    subtitle:
+      "Reverie was never just a dream—it was the precious moment of being there with Baekhyunee, sharing the same music, emotions, and glowing lights.",
+    note:
+      "In Hanoi, Reverie became more than the name of a concert—it became a memory filled with Baekhyunee’s voice, laughter, and warmth.",
+    before:
+      "Every song made the distance between the stage and the crowd disappear, turning the night into something deeply personal.",
+    favorite:
+      "I arrived carrying years of admiration and left with a beautiful moment that will stay with me long after the final lights faded.",
+    after:
+      "The night may have ended, but Reverie will always live on in my heart—a beautiful reminder that, for one unforgettable moment, I was there with Baekhyunee. Until we meet again, I’ll keep walking through this memory.",
+    tone: "blush",
+    gallery: [
+      {
+        src: publicAsset("/memories/baekhyun-reverie/eri-bong.webp"),
+        alt: "EXO lightsticks glowing in the audience at Baekhyun Reverie in Hanoi",
+        caption: "Eri-bong",
+        width: 1500,
+        height: 2000,
+      },
+      {
+        src: publicAsset("/memories/baekhyun-reverie/diem-vo.webp"),
+        alt: "Diem Vo wearing a soft pink concert outfit at Reverie in Hanoi",
+        caption: "DiemVo here!",
+        width: 1500,
+        height: 2000,
+      },
+      {
+        src: publicAsset("/memories/baekhyun-reverie/baekhyunee.webp"),
+        alt: "Baekhyun on stage during the Reverie world tour in Hanoi",
+        caption: "Baekhyunee",
+        width: 1127,
+        height: 2000,
+      },
+    ],
+    media: [
+      {
+        label: "Concert film",
+        title: "Reverie in Hanoi concert memory",
+        embedUrl: "https://www.youtube-nocookie.com/embed/6k_HJdxqVT4",
+      },
+      {
+        label: "Memory soundtrack",
+        title: "Reverie memory soundtrack",
+        embedUrl: "https://www.youtube-nocookie.com/embed/ufX7VluncTY",
+      },
+    ],
   },
 ];
 
-const years = ["All", "2026", "2025", "2024", "2023"];
+const years = ["All", ...new Set(memories.map((memory) => memory.year))];
 
 export default function Home() {
   const [activeYear, setActiveYear] = useState("All");
@@ -106,7 +131,7 @@ export default function Home() {
           <a href="#about">About</a>
         </nav>
 
-        <span className="archive-range">Personal archive · 2023—Now</span>
+        <span className="archive-range">Personal archive · 2025—Now</span>
       </header>
 
       <main id="main-content">
@@ -129,33 +154,33 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="hero-art" aria-hidden="true">
+          <div className="hero-art">
             <div className="hero-art-frame">
-              <span className="light-beam beam-one" />
-              <span className="light-beam beam-two" />
-              <span className="light-beam beam-three" />
-              <span className="stage-haze" />
-              <div className="stage-silhouette">
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="hero-ticket">
-                <span>ARCHIVE PASS</span>
+              <Image
+                className="hero-cover"
+                src={memories[0].gallery[2].src}
+                alt=""
+                width={memories[0].gallery[2].width}
+                height={memories[0].gallery[2].height}
+                priority
+                unoptimized
+                sizes="(max-width: 960px) 88vw, 36vw"
+              />
+              <span className="stage-haze" aria-hidden="true" />
+              <div className="hero-ticket" aria-hidden="true">
+                <span>MEMORY PASS</span>
                 <strong>WTM / 001</strong>
-                <small>Admit one memory</small>
+                <small>Hanoi · 04.10.2025</small>
               </div>
             </div>
             <p>
               <span>Latest memory</span>
-              <strong>Chapter 04 · Neon Encore</strong>
+              <strong>Chapter 01 · Reverie in Hanoi</strong>
             </p>
           </div>
 
           <p className="hero-index" aria-hidden="true">
-            01 / 04
+            01 / 01
           </p>
         </section>
 
@@ -166,8 +191,8 @@ export default function Home() {
               <h2 id="timeline-title">Memory timeline</h2>
             </div>
             <p>
-              Four demo chapters show how your concert stories will live here.
-              Open a chapter to step inside the night.
+              The archive begins in Hanoi with a night of music, rose light,
+              and a memory that still feels close.
             </p>
           </div>
 
@@ -189,28 +214,37 @@ export default function Home() {
               {filteredMemories.map((memory, index) => (
                 <li
                   className={index % 2 === 0 ? "timeline-item align-right" : "timeline-item align-left"}
-                  key={memory.chapter}
+                  key={`${memory.year}-${memory.chapter}`}
                 >
                   <div className="timeline-marker" aria-hidden="true">
                     <span>{memory.year}</span>
                   </div>
 
-                  <details className="memory-card">
+                  <details className="memory-card" open>
                     <summary>
-                      <div className={`memory-visual tone-${memory.tone}`} aria-hidden="true">
-                        <span className="visual-beam beam-a" />
-                        <span className="visual-beam beam-b" />
-                        <span className="visual-orb" />
-                        <span className="crowd-line" />
-                        <span className="demo-badge">Demo chapter</span>
-                        <span className="chapter-number">{memory.chapter}</span>
+                      <div className={`memory-visual tone-${memory.tone}`}>
+                        <Image
+                          className="memory-cover"
+                          src={memory.gallery[0].src}
+                          alt=""
+                          width={memory.gallery[0].width}
+                          height={memory.gallery[0].height}
+                          unoptimized
+                          sizes="(max-width: 960px) 82vw, 38vw"
+                        />
+                        <span className="memory-cover-shade" aria-hidden="true" />
+                        <span className="chapter-badge">First memory</span>
+                        <span className="chapter-number" aria-hidden="true">
+                          {memory.chapter}
+                        </span>
                       </div>
                       <div className="memory-summary">
                         <p className="memory-meta">
-                          {memory.date} · {memory.city}
+                          <time dateTime={memory.dateTime}>{memory.date}</time> · {memory.city}
                         </p>
                         <h3>{memory.title}</h3>
                         <p className="memory-subtitle">{memory.subtitle}</p>
+                        <p className="memory-venue">{memory.venue}</p>
                         <span className="open-chapter">
                           <span>Open chapter</span>
                           <span aria-hidden="true">＋</span>
@@ -237,6 +271,59 @@ export default function Home() {
                           <p>{memory.after}</p>
                         </section>
                       </div>
+
+                      <section className="memory-gallery" aria-labelledby={`gallery-${memory.chapter}`}>
+                        <div className="chapter-section-heading">
+                          <div>
+                            <span>04</span>
+                            <h4 id={`gallery-${memory.chapter}`}>From my camera roll</h4>
+                          </div>
+                          <p>Three fragments from a night I want to keep close.</p>
+                        </div>
+                        <div className="gallery-grid">
+                          {memory.gallery.map((image) => (
+                            <figure key={image.src}>
+                              <Image
+                                src={image.src}
+                                alt={image.alt}
+                                width={image.width}
+                                height={image.height}
+                                loading="lazy"
+                                unoptimized
+                                sizes="(max-width: 620px) 88vw, (max-width: 960px) 42vw, 26vw"
+                              />
+                              <figcaption>{image.caption}</figcaption>
+                            </figure>
+                          ))}
+                        </div>
+                      </section>
+
+                      <section className="memory-media" aria-labelledby={`media-${memory.chapter}`}>
+                        <div className="chapter-section-heading">
+                          <div>
+                            <span>05</span>
+                            <h4 id={`media-${memory.chapter}`}>Press play, return to the night</h4>
+                          </div>
+                          <p>Concert moments and the soundtrack that carries them.</p>
+                        </div>
+                        <div className="media-grid">
+                          {memory.media.map((item) => (
+                            <article key={item.embedUrl}>
+                              <p>{item.label}</p>
+                              <div className="video-frame">
+                                <iframe
+                                  src={item.embedUrl}
+                                  title={item.title}
+                                  loading="lazy"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                  referrerPolicy="strict-origin-when-cross-origin"
+                                  allowFullScreen
+                                />
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      </section>
                     </div>
                   </details>
                 </li>
@@ -251,18 +338,18 @@ export default function Home() {
 
         <section className="archive-stats" aria-label="Archive statistics">
           <div>
-            <strong>04</strong>
-            <span>Chapters</span>
+            <strong>01</strong>
+            <span>Chapter</span>
           </div>
           <div>
-            <strong>03</strong>
-            <span>Cities</span>
+            <strong>01</strong>
+            <span>City</span>
           </div>
           <div>
-            <strong>04</strong>
-            <span>Years walking</span>
+            <strong>01</strong>
+            <span>Year walking</span>
           </div>
-          <p>The numbers will grow. The feeling stays personal.</p>
+          <p>The archive starts with Reverie. The feeling keeps growing.</p>
         </section>
 
         <section className="about-section" id="about" aria-labelledby="about-title">
@@ -277,9 +364,9 @@ export default function Home() {
               a home for tickets, songs, lightsticks, favorite moments, and the
               stories that begin before the lights go down.
             </p>
-            <p className="demo-note">
-              This first edition uses curated demo chapters. Replace them with
-              your own artists, photos, tickets, and stories when you are ready.
+            <p className="archive-note">
+              Chapter 01 begins with Baekhyun&apos;s Reverie in Hanoi—one night,
+              three photographs, and a feeling worth returning to.
             </p>
           </div>
         </section>

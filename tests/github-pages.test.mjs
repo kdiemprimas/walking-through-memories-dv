@@ -12,6 +12,7 @@ test("builds a static export with the GitHub repository base path", async () => 
   assert.match(config, /GITHUB_REPOSITORY/);
   assert.match(config, /output:\s*isGitHubPages\s*\?\s*"export"/);
   assert.match(config, /basePath/);
+  assert.match(config, /NEXT_PUBLIC_BASE_PATH:\s*basePath/);
   assert.match(config, /unoptimized:\s*true/);
   assert.match(config, /tsconfigPath/);
 });
