@@ -13,7 +13,7 @@ type Memory = {
   favorite: string;
   before: string;
   after: string;
-  tone: "violet" | "rose" | "blue" | "gold";
+  tone: "blush" | "rose" | "blue" | "gold";
 };
 
 const memories: Memory[] = [
@@ -23,12 +23,12 @@ const memories: Memory[] = [
     date: "18 Apr",
     city: "Bangkok",
     title: "Neon Encore",
-    subtitle: "A night written in violet light",
+    subtitle: "A night written in rose light",
     note: "The crowd went quiet for one breath—then the whole arena became a sky of lightsticks.",
     favorite: "The final chorus, when every voice around me became part of the song.",
     before: "A folded ticket, silver details on the outfit, and that familiar nervous walk toward the arena doors.",
     after: "I left with ringing ears, a full camera roll, and the feeling that the night had ended too soon.",
-    tone: "violet",
+    tone: "blush",
   },
   {
     chapter: "03",

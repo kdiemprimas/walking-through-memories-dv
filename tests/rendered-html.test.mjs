@@ -74,3 +74,18 @@ test("removes the disposable preview and supports reduced motion", async () => {
   assert.match(page, /aria-pressed=\{activeYear === year\}/);
   assert.match(page, /No memories found for this year/);
 });
+
+test("uses a rose-afterglow pastel palette without legacy violet accents", async () => {
+  const [page, css] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(css, /--blush:\s*#f3afc3/i);
+  assert.match(css, /--berry:\s*#bd647f/i);
+  assert.match(css, /--rose-gold:\s*#e8ad9f/i);
+  assert.doesNotMatch(css, /--lavender|--violet/i);
+  assert.doesNotMatch(css, /116,\s*89,\s*220|185,\s*168,\s*255/);
+  assert.match(page, /tone:\s*"blush"/);
+  assert.doesNotMatch(page, /tone:\s*"violet"/);
+});
