@@ -75,10 +75,10 @@ const memories: Memory[] = [
       },
       {
         src: publicAsset("/memories/baekhyun-reverie/baekhyunee.webp"),
-        alt: "Baekhyun on stage during the Reverie world tour in Hanoi",
+        alt: "Black-and-white portrait of Baekhyun for Harper's Bazaar",
         caption: "Baekhyunee",
-        width: 1127,
-        height: 2000,
+        width: 1000,
+        height: 1400,
       },
     ],
     media: [
